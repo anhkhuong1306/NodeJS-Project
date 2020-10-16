@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>TechNews</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Demo project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel = "icon" href =  
+"https://img.icons8.com/color/48/000000/webmoney.png" 
+        type = "image/x-icon"> 
+<link rel="stylesheet" type="text/css" href="/public/styles/bootstrap4/bootstrap.min.css">
+<link href="/public/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/public/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="/public/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="/public/plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="/public/plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css">
+<link rel="stylesheet" type="text/css" href="/public/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="/public/styles/responsive.css">
+<link rel="stylesheet" href="/public/plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/public/styles/menu_dropdown.css">
+<link rel="stylesheet" href="/public/styles/menu.css">
+<link rel="stylesheet" href="/public/styles/publicCSS.css">
+<link rel="stylesheet" href="../../public/css/Login.css">
+<link rel="stylesheet" href="../../public/css/backtotop.css">
+<style>
+.scroll{
+	display:block;
+	padding:5px;
+	margin-top:5px;
+	width:100%;
+	height:400px;
+	overflow:auto;
+}
+</style>
+</head>
+<body>
+
+<div class="super_container">
+	<!-- Header -->
+	<header class="header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start">
+
+						<div class="hamburger menu_mm">
+							<i class="fa fa-bars trans_200 menu_mm" aria-hidden="true"></i>
+						</div>
+
+						<div class="logo" style="margin-left: 20px;"><a href="/">TechNews</a></div>
+						<nav class="main_nav">
+							<menu>
+								<menuitem id="demo1">
+									<a class="btnCategory" href="/category">Lập trình  </a>
+									<menu>
+									{{#if lcListMenu}}
+										{{#each lcListMenu}}
+											<menuitem class="menu-item">
+												<a>{{Name}}</a>
+												<menu>
+													{{#each Sub}}
+														<menuitem><a href="/category/{{Url}}">{{Name}}</a></menuitem>
+													{{/each}}
+												</menu>
+											</menuitem>
+										{{/each}}
+									{{else}}
+									<menuitem id="demo2">
+										<a>Chưa tải locals</a>
+									</menuitem>
+									{{/if}}
+									</menu>
+								</menuitem>
+							</menu>
+                        </nav>
+						<div class="search_container ml-5">
+							<!-- <div class="weather">
+								<div class="temperature">+10°</div>
+								<img class="weather_icon" src="images/cloud.png" alt="">
+							</div> -->
+							<form action="/search" method="GET">
+								<input type="search" name="Search" class="header_search_input" required="required" placeholder="Type to Search...">
+								<img class="header_search_icon" src="/public/images/search.png" alt="">
+							</form>							
+						</div>
+						
+						{{!-- Đã đăng nhập hay chưa --}}
+						<div class="ml-5">
+						{{#if lcIsAuthenticated}}
+						{{!-- Kiểm tra xem có phải là độc giả hay không --}}
+						{{#if isSubscriber}}
+						{{!-- Kiểm tra xem độc giả còn hạn premium hay không --}}
+						{{#if Premium}} 
+						{{#if Premium.Notvalue}}
+						<a class="btn btn-warning btn-sm" href="premium/register" role="button" title="Premium">
+						<i class="fab fa-vuejs"></i>
+						Hết hạn
+						<i class="fas fa-plus-square"></i>
+						</a>
+						{{else}}
+						<a class="btn btn-warning btn-sm" href="#" role="button" title="Premium">
+						<i class="fab fa-vuejs"></i>
+							Premium: {{#if Premium.days}}{{Premium.days}}d {{/if}} {{#if Premium.hours}}{{Premium.hours}}h {{/if}} {{#if Premium.minutes}}{{Premium.minutes}}m {{/if}} {{Premium.seconds}} s
+							{{!-- :{{premium.miniutes}}:{{premium.seconds}}s --}}
+						</a>
+						<a class="btn btn-danger btn-sm" href="premium/register" role="button" title="Add Premium">                  
+						<i class="fas fa-plus"></i>
+						</a>
+						{{/if}}
+						{{else}}
+						{{!-- Chưa đăng kí premium lần nào --}}
+						<b>Experient premium?</b>
+						<a class="btn btn-warning btn-sm" href="premium/register" role="button" title="Premium">
+							<i class="fab fa-vuejs"></i>
+							Buy now
+							<i class="fas fa-plus-square"></i>
+						</a>
+						{{/if}}
+						{{/if}}
+						{{/if}}
+						</div>
+
+						
+    					{{!-- register_login --}}
+						<form class="ml-auto" id="frmLogout" action="/account/logout" method="POST"></form>
+						<nav class="main_nav">
+							<ul>
+							{{#if lcIsWriter}}
+							<li>		
+								<a class="nav-link" href="/writer/Writer" role="button"
+								aria-haspopup="true" aria-expanded="false">
+								<b>WRITER</b>
+								</a>	
+							</li>
+							{{/if}}								
+							{{#if lcIsEditor}}
+							<li>		
+								<a class="nav-link" href="/editor" role="button"
+								aria-haspopup="true" aria-expanded="false">
+								<b>EDITOR</b>
+								</a>	
+							</li>
+							{{/if}}								
+							{{#if lcIsAdmin}}
+							<li>		
+								<a class="nav-link" href="/admin" role="button"
+								aria-haspopup="true" aria-expanded="false">
+								<b>ADMINISTRATOR</b>
+								</a>	
+							</li>
+							{{/if}}
+							{{#if lcIsAuthenticated}}
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<i class="fa fa-user" aria-hidden="true"></i>
+								Welcome, <b>{{lcAuthUser.Name}}</b>!
+								</a>
+								<div class="dropdown-menu bg-info" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item bg-info" href="/account/Profile/{{lcAuthUser.TypeAccount}}">
+									<i class="fa fa-user" aria-hidden="true"></i>
+									Account Profile
+								</a>							
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item bg-info" href="javascript: $('#frmLogout').submit()">
+									<i class="fa fa-sign-out" aria-hidden="true"></i>
+									Logout
+								</a>
+								</div>
+							</li>
+							{{else}}
+							<li class="nav-item">
+								<a class="nav-link" id="btnLogin" href="javascript:;">
+								<i class="fa fa-sign-in" aria-hidden="true"></i>
+								Login
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/account/register">
+								<i class="fa fa-user-plus" aria-hidden="true"></i>
+								Register
+								</a>
+							</li>
+							{{/if}}	
+							</ul>
+						</nav>
+						
+						{{!-- /register_login --}}
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+		<div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+		<div class="logo menu_mm"><a href="/">TechNews</a></div>
+		
+		{{!-- Phần login/register/logout/premium --}}
+		<div class="menu_lg">
+			{{!-- Đã đăng nhập hay chưa --}}
+			{{#if lcIsAuthenticated}}
+			{{!-- Kiểm tra xem có phải là độc giả hay không --}}
+			{{#if isSubscriber}}
+			{{!-- Kiểm tra xem độc giả còn hạn premium hay không --}}
+			{{#if Premium}} 
+			{{#if Premium.Notvalue}}
+			<a class="btn btn-warning btn-sm" href="premium/register" role="button" title="Premium">
+			<i class="fab fa-vuejs"></i>
+			Hết hạn
+			<i class="fas fa-plus-square"></i>
+			</a>
+			{{else}}
+			<a class="btn btn-warning btn-sm" href="#" role="button" title="Premium">
+			<i class="fab fa-vuejs"></i>
+				Premium: {{Premium.days}}d {{Premium.hours}}h {{Premium.minutes}}m
+				{{!-- :{{premium.miniutes}}:{{premium.seconds}}s --}}
+			</a>
+			<a class="btn btn-danger btn-sm" href="premium/register" role="button" title="Add Premium">                  
+			<i class="fas fa-plus"></i>
+			</a>
+			{{/if}}
+			{{else}}
+			{{!-- Chưa đăng kí premium lần nào --}}
+			<b>Experient premium?</b>
+			<a class="btn btn-warning btn-sm" href="premium/register" role="button" title="Premium">
+				<i class="fab fa-vuejs"></i>
+				Buy now
+				<i class="fas fa-plus-square"></i>
+			</a>
+			{{/if}}
+			{{/if}}
+			{{/if}}
+
+			{{!-- register_login --}}
+			{{#if lcIsWriter}}
+			<a class="nav-link" href="/writer/Writer" role="button"
+			aria-haspopup="true" aria-expanded="false">
+			<b>WRITER</b>
+			</a>
+			{{/if}}
+			{{#if lcIsEditor}}
+			<a class="nav-link" href="/editor" role="button"
+			aria-haspopup="true" aria-expanded="false">
+			<b>EDITOR</b>
+			</a>	
+			{{/if}}								
+			{{#if lcIsAdmin}}	
+			<a class="nav-link" href="/admin" role="button"
+			aria-haspopup="true" aria-expanded="false">
+			<b>ADMINISTRATOR</b>
+			</a>	
+			{{/if}}
+			{{#if lcIsAuthenticated}}
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-user" aria-hidden="true"></i>
+				Welcome, <b>{{lcAuthUser.Name}}</b>!
+				</a>
+				<div class="dropdown-menu bg-info" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item bg-info" href="/account/Profile/{{lcAuthUser.TypeAccount}}">
+					<i class="fa fa-user" aria-hidden="true"></i>
+					Account Profile
+				</a>							
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item bg-info" href="javascript: $('#frmLogout').submit()">
+					<i class="fa fa-sign-out" aria-hidden="true"></i>
+					Logout
+				</a>
+				</div>
+			{{else}}
+				<a class="nav-link" id="btnLogin" href="javascript:;">
+				<i class="fa fa-sign-in" aria-hidden="true"></i>
+				Login
+				</a>
+				<a class="nav-link btnRegister" href="/account/register">
+				<i class="fa fa-user-plus" aria-hidden="true"></i>
+				Register
+				</a>
+			{{/if}}
+			{{!-- /register_login --}}
+		</div>
+		
+		<div class="search">
+			<form action="/search" method="GET">
+				<input type="search" name="Search" class="header_search_input menu_mm" required="required" placeholder="Type to Search...">
+				<img class="header_search_icon menu_mm" src="/public/images/search_2.png" alt="">
+			</form>
+		</div>
+
+		<nav class="container-fluid">
+			<div class="nav-item dropdown">
+					<a class="nav-link item_Nav" href="/" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-home" aria-hidden="true"></i> &nbsp;
+						Home
+					</a>
+					<a class="nav-link item_Nav" href="/category" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-th-list" aria-hidden="true"></i> &nbsp;
+						List Category
+					</a>
+					<a class="nav-link item_Nav" href="/tag" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-tags" aria-hidden="true"></i> &nbsp;
+						List Tag
+					</a>
+					<a class="nav-link item_Nav" href="#idPostTreding" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-diamond" aria-hidden="true"></i> &nbsp;
+						Top Treding
+					</a>
+					<a class="nav-link item_Nav" href="#idMostView" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-eye" aria-hidden="true"></i> &nbsp;
+						Top View
+					</a>
+					<a class="nav-link item_Nav" href="#idPostNew" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp;
+						Post New
+					</a>
+			</div>
+		</nav>
+
+		
+	</div>
+	
+	<!-- Home -->
+
+	<div class="home">
+		<div id="Modal-Login"></div>
+		<!-- Home Slider -->
+
+		<div class="home_slider_container">
+			<div class="owl-carousel owl-theme home_slider">
+				
+
+
+				<!-- Slider Item -->
+				{{#if emptySliderPost}}
+					<p>NOT POST</p>
+				{{else}}
+					{{#each listSliderPost}}
+						<div class="owl-item">
+							<div class="home_slider_background" style="background-image:url({{Avatar}})"></div>
+							<div class="home_slider_content_container">
+								<div class="container">
+									<div class="row">
+										<div class="col">
+											<div class="home_slider_content" style="background-color: rgba(0, 0, 0, 0.685); padding: 20px;">
+												<div class="home_slider_item_title" >
+													{{#if IsPremium}}
+													<a href="/detail/{{Url}}"><span style="color: rgb(236, 233, 46);">{{Title}} <i class="fas fa-crown"></i></span></a>
+													{{else}}
+													<a href="/detail/{{Url}}">{{Title}}</a>
+													{{/if}}
+												</div>
+												<div class="home_slider_item_link">
+													<a href="/detail/{{Url}}" class="trans_200">Continue Reading
+														<svg version="1.1" id="link_arrow_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+															width="19px" height="13px" viewBox="0 0 19 13" enable-background="new 0 0 19 13" xml:space="preserve">
+															<polygon fill="#FFFFFF" points="12.475,0 11.061,0 17.081,6.021 0,6.021 0,7.021 17.038,7.021 11.06,13 12.474,13 18.974,6.5 "/>
+														</svg>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{{/each}}
+				{{/if}}
+
+			</div>
+
+			<div class="custom_nav_container home_slider_nav_container">
+				<div class="custom_prev custom_prev_home_slider">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+						<polyline fill="#FFFFFF" points="0,5.61 5.609,0 7,0 7,1.438 2.438,6 7,10.563 7,12 5.609,12 -0.002,6.39 "/>
+					</svg>
+				</div>
+		        <ul id="custom_dots" class="custom_dots custom_dots_home_slider">
+					<li class="custom_dot custom_dot_home_slider active"><span></span></li>
+					<li class="custom_dot custom_dot_home_slider"><span></span></li>
+					<li class="custom_dot custom_dot_home_slider"><span></span></li>
+				</ul>
+				<div class="custom_next custom_next_home_slider">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12" xml:space="preserve">
+						<polyline fill="#FFFFFF" points="6.998,6.39 1.389,12 -0.002,12 -0.002,10.562 4.561,6 -0.002,1.438 -0.002,0 1.389,0 7,5.61 "/>
+					</svg>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- Page Content -->
+    
+    {{{body}}}
+
+	<!-- Footer -->
+	<a id="back2Top" title="Back to top" href="#"><i class="fas fa-arrow-up"></i></a>
+	<footer class="footer">
+		<div class="container">
+			<div class="row row-lg-eq-height">
+				<div class="col-lg-9 order-lg-1 order-2">
+					<div class="footer_content">
+						<div class="footer_logo"><a href="/">TechNews</a></div>
+						<div class="footer_social">
+							<ul>
+								<li class="footer_social_facebook"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li class="footer_social_twitter"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								<li class="footer_social_pinterest"><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+								<li class="footer_social_vimeo"><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+								<li class="footer_social_instagram"><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+								<li class="footer_social_google"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+						<div class="copyright">
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+					</div>
+				</div>
+				<div class="col-lg-3 order-lg-2 order-1">
+					<div class="subscribe">
+						<div class="subscribe_background"></div>
+						<div class="subscribe_content">
+							<div class="subscribe_title">Subscribe</div>
+							<form action="#">
+								<input type="email" class="sub_input" placeholder="Your Email" required="required">
+								<button class="sub_button">
+									<svg version="1.1" id="link_arrow_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+										 width="19px" height="13px" viewBox="0 0 19 13" enable-background="new 0 0 19 13" xml:space="preserve">
+										<polygon fill="#FFFFFF" points="12.475,0 11.061,0 17.081,6.021 0,6.021 0,7.021 17.038,7.021 11.06,13 12.474,13 18.974,6.5 "/>
+									</svg>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+
+<script src="/public/js/jquery-3.2.1.min.js"></script>
+<script src="/public/styles/bootstrap4/popper.js"></script>
+<script src="/public/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/public/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="/public/plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.runtime.js"></script>
+<script src="/public/plugins/easing/easing.js"></script>
+<script src="/public/plugins/masonry/masonry.js"></script>
+<script src="/public/plugins/masonry/images_loaded.js"></script>
+<script src="/public/js/custom.js"></script>
+<script>
+    // For the thumbnail demo! :]
+
+function onClickMenu(){
+	document.getElementById("menu").classList.toggle("change");
+	document.getElementById("nav").classList.toggle("change");
+	
+	document.getElementById("menu-bg").classList.toggle("change-bg");
+}
+
+var count = 1
+setTimeout(demo, 500)
+setTimeout(demo, 700)
+setTimeout(demo, 900)
+setTimeout(reset, 2000)
+
+setTimeout(demo, 2500)
+setTimeout(demo, 2750)
+setTimeout(demo, 3050)
+
+
+var mousein = false
+function demo() {
+   if(mousein) return
+   document.getElementById('demo' + count++)
+      .classList.toggle('hover')
+   
+}
+
+function demo2() {
+   if(mousein) return
+   document.getElementById('demo2')
+      .classList.toggle('hover')
+}
+
+function reset() {
+   count = 1
+   var hovers = document.querySelectorAll('.hover')
+   for(var i = 0; i < hovers.length; i++ ) {
+      hovers[i].classList.remove('hover')
+   }
+}
+
+
+document.addEventListener('mouseover', function() {
+   mousein = true
+   reset()
+})
+
+
+
+async function Login(event)
+{
+	try{
+		const $username = $('#email').val();
+		const $password = $('#password').val();
+		const $url = $('#url').val();
+		console.log($url);
+
+		const response = await fetch('/account/login', {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ Username:$username , Password: $password, Url:$url})
+		});
+		
+		const responseJSON = await response.json();
+		if(responseJSON.success)
+		{
+			location.href=responseJSON.success;
+		}
+		else
+		{
+			$('#invalid').html(responseJSON.err);
+			console.log( responseJSON.err);
+		}
+	}
+	catch(error)
+	{
+		console.log(error);
+	}
+} 
+
+$(document).ready(()=>{
+	
+	let loginWindow;
+	$('#btnLogin').on('click', (event)=>{
+		document.getElementById('Modal-Login').innerHTML = Handlebars.templates.Login();
+		$('#Login').modal('show');
+
+		$('#email, #password').on('keypress', () => {
+			if($('#password').val().length !== 0 && $('#email').val().length !== 0) {
+				$('#email, #password').one('keypress', (event)=>{
+					if(event.which === 13)
+					{
+						$('#login').click();
+					}	
+				});
+			}
+		});
+		$('#login').off('click').on('click', Login);
+
+		document.querySelectorAll('.Login-Social').forEach(btn => {
+			btn.addEventListener('click', (event) => {
+				event.preventDefault();
+				let url = $(event.currentTarget).children().attr('href');
+				let width = 500, height = 370;
+				if (url.indexOf('/auth/google') === 0 || url.indexOf('/auth/facebook') === 0) {
+					width = 470; height = 580;
+				}
+				let w = window.outerWidth - width, h = window.outerHeight - height;
+				let left = Math.round(window.screenX + (w / 2));
+				let top = Math.round(window.screenY + (h / 2.5));
+
+				loginWindow = window.open(url, 'LogIn',
+					'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top +
+					',toolbar=0,scrollbars=0,status=0,resizable=0,location=0,menuBar=0');
+			});
+		})
+	});
+
+	$("#back2Top").click(function(event) {
+        event.preventDefault();
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    });
+});
+
+$(window).scroll(()=>{
+	let height = $(window).scrollTop();
+	if(height > 200 && height <= $('.sidebar_background').offset().top + $('.sidebar_background').outerHeight() - window.innerHeight)
+	{
+		$('#back2Top').fadeIn();
+	}
+	else
+	{        
+        $('#back2Top').fadeOut(); 
+	}
+});
+
+window.addEventListener('message', function(event) {
+	if (event.data !== 'popup-done') 
+	{ 
+		return; 
+	}
+	window.location.replace('/auth/good');
+});
+
+</script>
+{{{_sections.js}}}
+</body>
+</html>
+<script>
+	(function () {
+		var revive = Handlebars.template,
+		templates = Handlebars.templates = Handlebars.templates || {};
+		{{#templates}}
+			templates['{{{name}}}'] = revive({{{ template }}});
+		{{/templates}}
+  	} ());
+</script>

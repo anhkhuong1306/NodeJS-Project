@@ -1,0 +1,45 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "",
+    "database": "news",
+    "connectionLimit": 10,
+    "multipleStatements": true
+  },
+  "authentication":{
+    "saltRounds": 8
+  },
+  "mysql_cloud": {
+    "host": "bdif8nuraszoupoykeaf-mysql.services.clever-cloud.com",
+    "port": 3306,
+    "user": "uglxlapoyltaafez",
+    "password": "1tYzeNRKd8YgdcOttRR9",
+    "database": "bdif8nuraszoupoykeaf",
+    "connectionLimit": 10,
+    "multipleStatements": true
+  },
+  "momentDefault":{
+    "Duration": {
+      "Year": "Y",
+      "Quarters": "Q",
+      "Months": "M",
+      "Weeks": "w",
+      "Days": "d",
+      "Hours": "h",
+      "Minutes": "m",
+      "Seconds": "s",
+      "Miliseconds": "ms"
+    },
+    "NumberTime": 7
+  },
+  "addMinutes": 10080,
+  "pagination": {
+    "limit": 4,
+    "limitPaginationLinks":5,
+    "limitPostPage": 3
+  },
+  "filesize": 1048576,
+  "dayTrend": 7
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNews | Premium</title>
+    <!-- Font Awesome Icons -->
+    <link rel = "icon" href =  
+"https://img.icons8.com/color/48/000000/webmoney.png" 
+        type = "image/x-icon">
+  <link rel="stylesheet" href="/public/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/public/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="container text-center">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <a class="navbar-brand" href="/"><i class="fas fa-home"></i>HOME</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+    <form class="ml-auto" id="frmLogout" action="/account/logout" method="POST"></form>
+    <ul class="nav navbar-light bg-light">
+          {{#if lcIsAuthenticated}}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <b>{{lcAuthUser.Name}}</b>
+            </a>
+            <div class="dropdown-menu bg-info" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item bg-info" href="/account/Profile/1">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                Account Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item bg-info" href="/">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                Change To Home
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item bg-info" href="javascript: $('#frmLogout').submit()">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+          {{/if}}
+        </ul>
+  </div>
+</nav>
+
+    <div class="card">
+  <div class="card-header bg-primary">
+    <h2 class="text-center">Get Premium</h2>
+  </div>
+  <div class="card-body">
+    {{#if err}}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{err}}
+    </div>
+    {{/if}}
+    {{!-- xử lý thành công --}}
+    {{#if success}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{success}}
+    </div>
+    {{/if}}
+    <div class=" border border-danger rounded">
+
+        <ul class="list-unstyled text-left" style="padding: 0 24px;">
+            <b>Quyền lợi VIP:</b>
+            <li><i class="fa fa-check text-success"></i><span style="color:#800080"><strong> Đặc quyền của thành viên VIP</strong></span></li>
+            <li><i class="fa fa-check text-success"></i> Xem các bài viết VIP</li>
+            <li><i class="fa fa-check text-success"></i> Xem không giới hạn</li>
+            <li><i class="fa fa-check text-success"></i> Tải ấn bản (.pdf)</li>
+        </ul>
+    </div>
+    <h3 class="text-left">Thông tin người dùng</h3>
+    <ul class="text-left">
+        <li><b>Name:</b> {{lcAuthUser.Name}}</li>
+        <li><b>DOB: </b>{{lcAuthUser.DOB}}</li>
+        <li><b>Email: </b>{{#if lcAuthUser.Email}}{{lcAuthUser.Email}}{{else}}Chưa có{{/if}}</li>
+        <li><b>Phone: </b>{{#if lcAuthUser.Phone}}{{lcAuthUser.Phone}}{{else}}Chưa có{{/if}}</li>
+        <li><b>Sex: </b>{{#if lcAuthUser.Sex}} Nữ {{else}} Nam {{/if}}</li>
+        <li class="text-danger"><i class="fab fa-vuejs"></i>Thời hạn VIP: 
+        {{#if this.Premium}}
+            {{#if this.Premium.Notvalue}}
+            Hết hạn
+            {{else}}             
+            Còn {{#if this.Premium.days}} {{this.Premium.days}} ngày {{/if}} {{#if this.Premium.hours}}  {{this.Premium.hours}} giờ {{/if}} {{#if this.Premium.minutes}}{{this.Premium.minutes}} phút {{/if}}{{this.Premium.seconds}} giây
+            {{/if}}
+        {{else}}
+            Chưa đăng kí
+        {{/if}}
+        </li>
+    </ul>
+    <form method="POST" action="/premium/register">
+        {{!-- <input type="text" name="Id" value="{{this.account.Id}}"> --}}
+        <input type="hidden" name="Username" value="{{lcAuthUser.Username}}">
+
+        <input type="hidden" name="returnUrl" value="{{retUrl}}">
+        {{!-- <input type="text" name="TypeAccount" value="{{this.account.TypeAccount}}"> --}}
+        <div class="form-group required">
+        <h3 class="text-left">Gói VIP</h3>
+        <div class="form-check">
+          <div class="form-row">
+              <div class="form-group">
+                <input type="radio" id="radioMale" class="form-check-input" name="Time" value="{{this.time.value}}" checked>
+                <a class="btn btn-info" href="#" role="button">
+                    <i class="fas fa-plus"></i> {{#if this.time.days}}{{this.time.days}} ngày{{/if}} {{#if this.time.hours}}{{this.time.hours}} giờ{{/if}} {{#if this.time.minutes}}{{this.time.minutes}} phút{{/if}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div>
+          
+          <button type="submit" class="btn btn-warning btn-lg" title="Thanh toán">
+            <i class="fas fa-check-double"></i> Pay
+        </button>
+        </div>
+    </form>
+  </div>
+</div>
+<script src="/public/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/public/js/adminlte.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.runtime.js"></script>
+</body>
+</html>
+

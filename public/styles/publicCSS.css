@@ -1,0 +1,102 @@
+/* .content-summary{
+	white-space: nowrap; 
+	height: 80px; 
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.title-post{
+	height: 65px;
+	overflow: hidden; 
+} */
+
+.card-tag{
+	height: 90px; 
+	overflow: hidden;
+}
+
+.list-tag{
+	height: 58px;
+	overflow: hidden; 
+}
+
+.side_post{
+	margin-top: 20px;
+}
+
+
+.pagination-reinstall{
+	margin-top: 30px;
+}
+
+.pagination-reinstall nav a{
+	background-color: #fff;
+	color: black;
+	min-width: 20px;
+	transition: none;
+	margin: 0;
+	padding: .5rem .75rem;
+	position: relative;
+	min-width: 0;
+	border-radius: 0%;
+	font-size: 14px;
+}
+
+.views{
+	margin-top: 10px;
+}
+
+
+/* .img-resize{
+	height: 60vh;
+	object-fit: contain;
+}*/
+
+.post_body img{
+	object-fit: contain;
+	width: 100%;
+}
+
+.post_body p{
+	color: rgb(8, 8, 8);
+	font-size: 16px;
+}
+
+@media only screen and (max-width: 1199px)
+{
+	.post_body img{
+		width: 100%;
+	}
+}
+
+@media only screen and (max-width: 767px)
+{
+	.post_body img{
+		width: 100%;
+	}
+}
+
+.btnLogin{
+	display: block;
+	width: 125px;
+	height: 40px;
+	background-color: rgb(221, 201, 184);
+	float: left;
+	line-height: 40px;
+	margin: 5px;
+	text-align: center;
+	padding: 0;
+	color: rgb(67, 37, 70);
+}
+
+.btnLogin:hover{
+	background-color: black;
+	color: yellow;
+}
+
+
+.nav-link:focus, .nav-link:hover {
+	background-color: black;
+	color: rgb(247, 247, 45);
+	text-decoration: none;
+}
