@@ -1,13 +1,3 @@
-# DoAnLapTrinhWeb2
-Đồ án lập trình web 2 
-
-Danh sách thành viên:
-1. Nguyễn Thái Học - 1760319
-2. Nguyễn Anh Khương - 1760343
-3. Lương Thế Vinh - 1760464
-4. Nguyễn Quốc Vinh- 176465
-
-
 Tên miền: https://selurwebproject.herokuapp.com/
 
 Tài khoản admin: admin123
